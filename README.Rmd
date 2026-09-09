@@ -15,20 +15,26 @@ knitr::opts_chunk$set(
 
 ## Results so far
 
-Results...
-
 ```{r, echo=FALSE, message=FALSE}
 library(tidyverse)
 res <- read_csv("results.csv")
 
 res |>
   group_by(machine, threads) |>
-  summarise(mean_chain = min(mean_chain), .groups = "drop") |>   # cached run = the lower one
-  pivot_wider(names_from = threads, values_from = mean_chain, names_prefix = "threads=") |>
-  knitr::kable(digits = 1)
+  summarise(mean_chain = min(mean_chain), .groups = "drop") |>
+  group_by(machine) |>
+  mutate(speedup = mean_chain[threads == 1] / mean_chain) |>
+  ungroup() |>
+  mutate(cell = sprintf("%.1f s (%.2f×)", mean_chain, speedup),
+         cell = if_else(threads == 1, sprintf("%.1f s", mean_chain), cell)) |>
+  select(machine, threads, cell) |>
+  pivot_wider(names_from = threads, values_from = cell,
+              names_prefix = "", names_glue = "{threads} thread{ifelse(threads > 1, 's', '')}") |>
+  arrange(desc(`1 thread`)) |>
+  knitr::kable(align = "lrrrr", caption = "Mean chain time (speed-up vs 1 thread)")
 ```
 
-And the graph...
+## The graph
 
 ```{r, echo=FALSE, message=FALSE, fig.path="figures/", fig.width=7, fig.height=4, dpi=200}
 
