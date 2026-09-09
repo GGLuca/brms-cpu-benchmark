@@ -1,0 +1,34 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Results so far
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+res <- read_csv("results.csv")
+
+res |>
+  group_by(machine, threads) |>
+  summarise(mean_chain = min(mean_chain), .groups = "drop") |>   # cached run = the lower one
+  pivot_wider(names_from = threads, values_from = mean_chain, names_prefix = "threads=") |>
+  knitr::kable(digits = 1)
+```
+
+```{r, echo=FALSE, message=FALSE, fig.path="figures/"}
+res |>
+  group_by(machine, threads) |>
+  summarise(mean_chain = min(mean_chain), .groups = "drop") |>
+  ggplot(aes(threads, mean_chain, colour = machine)) +
+  geom_line() + geom_point() +
+  labs(y = "mean chain time (s)") + theme_minimal()
+```
