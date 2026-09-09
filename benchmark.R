@@ -8,8 +8,8 @@ library(tidyverse)
 
 benchmark <- read_csv("benchmark.csv")
 
-machine   <- "M4Max"      # label for this computer
-threads   <- 3            # 1 = no within-chain threading; 2, 3, ... = threading(k)
+machine   <- "M4Pro"      # label for this computer
+threads   <- 3           # 1 = no within-chain threading; 2, 3, ... = threading(k)
 
 benchmark <- read_csv("benchmark.csv", show_col_types = FALSE)
 
@@ -35,9 +35,9 @@ runtime   <- system.time({
 # per-chain seconds as reported by CmdStan (this inclues warmup and sampling)
 
 chain_time <- rowSums(rstan::get_elapsed_time(model_poisson$fit))
-mean_chain <- mean(chain_time)          # Mean chain execution time
-total_exec <- max(chain_time)           # Total execution time (the slowest chain)
-elapsed    <- runtime[["elapsed"]]      # Timing for the whole brm() call
+mean_chain <- mean(chain_time)          # mean chain execution time
+total_exec <- max(chain_time)           # total execution time (the slowest chain)
+elapsed    <- runtime[["elapsed"]]      # timing for the whole brm() call
 overhead   <- elapsed - total_exec      # compile (if any) + code gen + read-back
 
 result <- data.frame(

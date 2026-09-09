@@ -11,6 +11,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+## The cmdstan/brms/cpu benchmark
+
 ## Results so far
 
 ```{r, echo=FALSE, message=FALSE}
@@ -24,11 +26,21 @@ res |>
   knitr::kable(digits = 1)
 ```
 
-```{r, echo=FALSE, message=FALSE, fig.path="figures/"}
+```{r, echo=FALSE, message=FALSE, fig.path="figures/", fig.width=7, fig.height=4}
+
 res |>
   group_by(machine, threads) |>
   summarise(mean_chain = min(mean_chain), .groups = "drop") |>
-  ggplot(aes(threads, mean_chain, colour = machine)) +
-  geom_line() + geom_point() +
-  labs(y = "mean chain time (s)") + theme_minimal()
+  ggplot(aes(factor(threads), mean_chain, colour = machine, group = machine)) +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 2.5) +
+  geom_text(aes(label = mean_chain), vjust = -0.9, size = 3, show.legend = FALSE) +
+  scale_y_continuous(limits = c(20, 60)) +
+  scale_colour_brewer(palette = "Set2") +
+  labs(x = "threads per chain (4 chains)",
+       y = "mean chain time (s)",
+       colour = NULL,
+       title = "brms Poisson GLMM, 10k rows — seed 1234, CmdStan 2.39") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
 ```

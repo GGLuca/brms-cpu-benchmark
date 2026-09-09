@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+## The cmdstan/brms/cpu benchmark
+
 ## Results so far
 
 | machine       | threads=1 | threads=2 | threads=3 | threads=4 |
