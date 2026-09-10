@@ -111,7 +111,7 @@ res |>
   geom_line(linewidth = 0.8) +
   geom_point(size = 2.5) +
   geom_text(aes(label = mean_chain), vjust = -0.9, size = 3, show.legend = FALSE) +
-  scale_y_continuous(limits = c(0, NA)) +
+  scale_y_continuous(limits = c(20, 70)) +
   scale_colour_brewer(palette = "Set1") +
   labs(x = "threads per chain (4 chains)",
        y = "mean chain time (s)",

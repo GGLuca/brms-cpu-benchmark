@@ -100,9 +100,10 @@ This measures end-to-end sampling time for a standard call.
 Mean chain time in seconds; the lowest of the replicate runs is shown
 (the cached run). Speed-up relative to `threads = 1` in parentheses.
 
-| machine      | 1 thread |      2 threads |
-|:-------------|---------:|---------------:|
-| Apple M4 Pro |   45.4 s | 32.9 s (1.38×) |
+| machine | 1 thread | 2 threads | 3 threads | 4 threads |
+|:---|---:|---:|---:|---:|
+| AMD Ryzen 9 5950X 16-Core Processor | 56.9 s | 36.4 s (1.56×) | 31.9 s (1.78×) | 26.2 s (2.17×) |
+| Apple M4 Pro | 45.4 s | 32.9 s (1.38×) |  |  |
 
 ![](figures/unnamed-chunk-5-1.png)<!-- -->
 
