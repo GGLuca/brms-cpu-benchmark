@@ -23,7 +23,9 @@ Needs R, `brms`, `cmdstanr` and a working CmdStan
 `results.csv` in your working directory and prints it. The first run of
 each thread setting includes compilation (visible in `overhead`); the
 second is the clean one. Laptops should be plugged in and on Linux, set
-the CPU governor to `performance`. ´ \## Report it
+the CPU governor to `performance`.
+
+## Report it
 
 If you wish, paste your rows as a [GitHub
 issue](https://github.com/GGLuca/brms-cpu-benchmark/issues) and also
