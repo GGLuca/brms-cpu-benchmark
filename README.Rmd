@@ -109,15 +109,15 @@ res |>
   summarise(mean_chain = min(mean_chain), .groups = "drop") |>
   ggplot(aes(factor(threads), mean_chain, colour = machine, group = machine)) +
   geom_line(linewidth = 0.8) +
-  geom_point(size = 2.5) +
+  geom_point(size = 1.5) +
   geom_text(aes(label = mean_chain), vjust = -0.9, size = 3, show.legend = FALSE) +
-  scale_y_continuous(limits = c(20, 70)) +
+  scale_y_continuous(limits = c(20, 100)) +
   scale_colour_brewer(palette = "Set1") +
   labs(x = "threads per chain (4 chains)",
        y = "mean chain time (s)",
        colour = NULL,
        title = "brms Poisson multilevel model, 10k rows") +
-  theme_minimal(base_size = 12) +
+  brms::theme_default(base_size = 12) +
   theme(legend.position = "right")
 ```
 

@@ -102,6 +102,7 @@ Mean chain time in seconds; the lowest of the replicate runs is shown
 
 | machine | 1 thread | 2 threads | 3 threads | 4 threads |
 |:---|---:|---:|---:|---:|
+| AMD Ryzen 5 5625U (WSL2) | 89.1 s |  |  |  |
 | AMD Ryzen 9 5950X 16-Core Processor | 56.9 s | 36.4 s (1.56×) | 31.9 s (1.78×) | 26.2 s (2.17×) |
 | Apple M4 Pro | 45.4 s | 32.9 s (1.38×) |  |  |
 
