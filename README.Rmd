@@ -104,6 +104,7 @@ res |>
 ```
 
 ```{r, echo = FALSE, message = FALSE, fig.path = "figures/", fig.width = 7, fig.height = 4, dpi = 200}
+
 res |>
   group_by(machine, threads) |>
   summarise(mean_chain = min(mean_chain), .groups = "drop") |>
@@ -116,7 +117,8 @@ res |>
   labs(x = "threads per chain (4 chains)",
        y = "mean chain time (s)",
        colour = NULL,
-       title = "brms Poisson multilevel model, 10k rows") +
+       title = "brms Poisson multilevel model, 10k rows",
+       caption = "* 3 chains × 2 threads (all 6 cores of the 5625U); all other points 4 chains")+
   brms::theme_default(base_size = 12) +
   theme(legend.position = "right")
 ```
