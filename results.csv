@@ -12,4 +12,4 @@ AMD Ryzen 9 5950X 16-Core,16,3,31.9,33.4,37.8,4.4,2.23.0,2.39.0,R version 4.6.1 
 AMD Ryzen 9 5950X 16-Core,16,4,26.2,26.8,31.3,4.5,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
 AMD Ryzen 9 5950X 16-Core,16,4,27.1,27.9,32.1,4.2,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
 AMD Ryzen 5 5625U (WSL2),6,1,89.8,92.3,141.6,49.2,2.20.4,2.39.0,R version 4.3.3 (2024-02-29),Linux 6.18.33.2-microsoft-standard-WSL2,2026-09-11
-AMD Ryzen 5 5625U (WSL2),6,2,65.5,65.9,113.6,NA,2.20.4,2.39.0,R version 4.3.3 (2024-02-29),Linux 6.18.33.2-microsoft-standard-WSL2,2026-09-11
+AMD Ryzen 5 5625U (WSL2),6,2,65.5,67.9,106.8,38.9,2.20.4,2.39.0,R version 4.3.3 (2024-02-29),Linux 6.18.33.2-microsoft-standard-WSL2,2026-09-11
