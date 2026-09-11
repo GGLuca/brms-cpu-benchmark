@@ -3,11 +3,13 @@ Apple M4 Pro,8,1,45.4,46.6,51.4,4.8,2.23.0,2.39.0,R version 4.6.0 (2026-04-24),D
 Apple M4 Pro,8,1,45.7,47,51.6,4.7,2.23.0,2.39.0,R version 4.6.0 (2026-04-24),Darwin 24.6.0,2026-09-10
 Apple M4 Pro,8,2,32.9,34.9,44.5,9.6,2.23.0,2.39.0,R version 4.6.0 (2026-04-24),Darwin 24.6.0,2026-09-10
 Apple M4 Pro,8,2,32.9,34.4,39.1,4.7,2.23.0,2.39.0,R version 4.6.0 (2026-04-24),Darwin 24.6.0,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,1,57.2,59.1,73.9,14.8,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,1,56.9,59.1,63.2,4.2,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,2,36.4,37.3,50.9,13.6,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,2,36.5,38,42.3,4.3,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,3,32.2,32.7,37,4.3,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,3,31.9,33.4,37.8,4.4,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,4,26.2,26.8,31.3,4.5,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
-AMD Ryzen 9 5950X 16-Core Processor,32,4,27.1,27.9,32.1,4.2,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,1,57.2,59.1,73.9,14.8,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,1,56.9,59.1,63.2,4.2,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,2,36.4,37.3,50.9,13.6,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,2,36.5,38,42.3,4.3,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,3,32.2,32.7,37,4.3,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,3,31.9,33.4,37.8,4.4,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,4,26.2,26.8,31.3,4.5,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 9 5950X 16-Core Processor,16,4,27.1,27.9,32.1,4.2,2.23.0,2.39.0,R version 4.6.1 (2026-06-24),Linux 7.0.0-31-generic,2026-09-10
+AMD Ryzen 5 5625U (WSL2),6,1,89.8,92.3,141.6,49.2,2.20.4,2.39.0,R version 4.3.3 (2024-02-29),Linux 6.18.33.2-microsoft-standard-WSL2,2026-09-11
+AMD Ryzen 5 5625U (WSL2),6,1,89.1,91.6,122.7,31.1,2.20.4,2.39.0,R version 4.3.3 (2024-02-29),Linux 6.18.33.2-microsoft-standard-WSL2,2026-09-11
