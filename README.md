@@ -24,7 +24,7 @@ Copy/paste into the console, but beware of your own specs before setting
 the treads argument.
 
 ``` r
-source("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/main/run_benchmark.R")
+source("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/refs/heads/master/benchmark.R")
 run_benchmark(threads = 1:2, reps = 2)   # keep 4 x threads <= your fast physical cores
 ```
 
