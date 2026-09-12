@@ -85,7 +85,7 @@ cached run). Speed-up relative to `threads = 1` in parentheses.
 
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
-res <- read_csv("results.csv", show_col_types = FALSE)
+res <- read_csv("results.csv", show_col_types = FALSE) 
 
 res |>
   group_by(machine, threads) |>
@@ -105,22 +105,30 @@ res |>
 
 ```{r, echo = FALSE, message = FALSE, fig.path = "figures/", fig.width = 7, fig.height = 4, dpi = 200}
 
-res |>
+library(tidyverse)
+
+dat <- res |>
   group_by(machine, threads) |>
-  summarise(mean_chain = min(mean_chain), .groups = "drop") |>
-  ggplot(aes(factor(threads), mean_chain, colour = machine, group = machine)) +
-  geom_line(linewidth = 0.8) +
-  geom_point(size = 1.5) +
-  geom_text(aes(label = mean_chain), vjust = -0.9, size = 3, show.legend = FALSE) +
-  scale_y_continuous(limits = c(20, 100)) +
-  scale_colour_brewer(palette = "Set1") +
+  summarise(mean_chain = min(mean_chain), .groups = "drop")
+
+ggplot(dat, aes(threads, mean_chain, colour = machine, shape = machine)) +
+  geom_line(linewidth = 1.5) +
+  geom_point(size = 2.5) +
+  geom_text(aes(label = mean_chain,
+                vjust = if_else(grepl("Apple", machine), 1.9, -0.9)),
+            size = 3.2, show.legend = FALSE) +
+  scale_colour_brewer(palette = "Dark2") +                        # up to 8 machines
+  scale_shape_manual(values = c(17, 19, 15, 18, 8, 4, 3, 7)) +      
+  scale_x_continuous(breaks = 1:4) +
+  scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.1))) +
   labs(x = "threads per chain (4 chains)",
        y = "mean chain time (s)",
-       colour = NULL,
-       title = "brms Poisson multilevel model, 10k rows",
-       caption = "* 3 chains × 2 threads (all 6 cores of the 5625U); all other points 4 chains")+
-  brms::theme_default(base_size = 12) +
-  theme(legend.position = "right")
+       colour = NULL, shape = NULL) +
+  theme_classic(base_size = 10) +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.82, 0.85),
+        legend.background = element_blank(),
+        legend.key = element_blank())
 ```
 
 ## Files
