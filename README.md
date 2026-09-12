@@ -29,9 +29,9 @@ the CPU governor to `performance`.
 
 If you wish, paste your rows as a [GitHub
 issue](https://github.com/GGLuca/brms-cpu-benchmark/issues) and also
-please say whether the laptop was on power (if on Windoze) and, on
-Linux, which governor was active. Rows are merged into `results.csv` by
-me as soon as I get them.
+please make sure that the laptop was plugged in and if the power mode
+was on (if on Win). If you are on Linux, which governor was active. Rows
+are merged into `results.csv` by me as soon as I get the chance.
 
 ## The benchmark
 
@@ -87,18 +87,19 @@ This measures end-to-end sampling time for a standard call.
 
 ## What the columns mean in the results.csv
 
-| column | what it is | compare across machines? |
+| Variable | Explanation | Comparable across machines? |
 |:---|:---|:---|
-| `mean_chain` | mean per-chain seconds from CmdStan’s own clock (warmup + sampling) | **yes, the benchmark** |
-| `total_exec` | slowest chain; wall time of the sampling phase | yes, also |
-| `elapsed` | the whole `brm()` call: code generation + compile (if any) + sampling + read-back | no |
-| `overhead` | `elapsed − total_exec`; ~4–5 s when cached, 15–80 s when a compile happened | no |
-| `fast_cores` | fast physical cores detected on the machine | not really |
+| `mean_chain` | Mean per-chain seconds from CmdStan’s own clock (warmup + sampling) | **yes, the benchmark** |
+| `total_exec` | Slowest chain; wall time of the sampling phase | yes, also |
+| `elapsed` | The whole `brm()` call: code generation + compile (if any) + sampling + read-back | no |
+| `overhead` | Calculated as `elapsed − total_exec`. Approx. 4–5 s when cached, 15–80 s when a compile happened | no |
+| `fast_cores` | Fast physical cores detected on the machine | not really |
 
 ## Results
 
-Mean chain time in seconds; the lowest of the replicate runs is shown
-(the cached run). Speed-up relative to `threads = 1` in parentheses.
+Mean chain time (`mean_chain`) in seconds, with the lowest timed runs
+shown (which is the cached run). In parentheses is the speed-up relative
+to `threads = 1`, i.e., 3 or 4 cores full with one chain.
 
 | machine | 1 thread | 2 threads | 3 threads | 4 threads |
 |:---|---:|---:|---:|---:|
@@ -107,6 +108,8 @@ Mean chain time in seconds; the lowest of the replicate runs is shown
 | Apple M4 Pro | 45.4 s | 32.9 s (1.38×) |  |  |
 | Apple M4 Max | 45.1 s | 30.4 s (1.48×) | 27.6 s (1.63×) |  |
 
+And here are the timings again, in a figure.
+
 ![](figures/unnamed-chunk-5-1.png)<!-- -->
 
 ## Files
@@ -114,7 +117,7 @@ Mean chain time in seconds; the lowest of the replicate runs is shown
 - `run_benchmark.R`. the function; `source()` it and call
   `run_benchmark()`
 - `benchmark.csv`. the data
-- `results.csv`. all rows so far, one per run
+- `results.csv`. all rows so far
 
 ## References
 

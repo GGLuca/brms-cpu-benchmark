@@ -31,7 +31,7 @@ Needs R, `brms`, `cmdstanr` and a working CmdStan
 ## Report it
 
 If you wish, paste your rows as a
-[GitHub issue](https://github.com/GGLuca/brms-cpu-benchmark/issues) and also please say whether the laptop was on power (if on Windoze) and, on Linux, which governor was active. Rows are merged into `results.csv` by me as soon as I get them.
+[GitHub issue](https://github.com/GGLuca/brms-cpu-benchmark/issues) and also please make sure that the laptop was plugged in and if the power mode was on (if on Win). If you are on Linux, which governor was active. Rows are merged into `results.csv` by me as soon as I get the chance.
 
 ## The benchmark
 
@@ -70,18 +70,17 @@ This measures end-to-end sampling time for a standard call.
 
 ## What the columns mean in the results.csv
 
-| column | what it is | compare across machines? |
+| Variable | Explanation | Comparable across machines? |
 |:--|:--|:--|
-| `mean_chain` | mean per-chain seconds from CmdStan's own clock (warmup + sampling) | **yes, the benchmark** |
-| `total_exec` | slowest chain; wall time of the sampling phase | yes, also|
-| `elapsed` | the whole `brm()` call: code generation + compile (if any) + sampling + read-back | no |
-| `overhead` | `elapsed − total_exec`; ~4–5 s when cached, 15–80 s when a compile happened | no |
-| `fast_cores` | fast physical cores detected on the machine | not really |
+| `mean_chain` | Mean per-chain seconds from CmdStan's own clock (warmup + sampling) | **yes, the benchmark** |
+| `total_exec` | Slowest chain; wall time of the sampling phase | yes, also|
+| `elapsed` | The whole `brm()` call: code generation + compile (if any) + sampling + read-back | no |
+| `overhead` | Calculated as `elapsed − total_exec`. Approx. 4–5 s when cached, 15–80 s when a compile happened | no |
+| `fast_cores` | Fast physical cores detected on the machine | not really |
 
 ## Results
 
-Mean chain time in seconds; the lowest of the replicate runs is shown (the
-cached run). Speed-up relative to `threads = 1` in parentheses.
+Mean chain time (`mean_chain`) in seconds, with the lowest timed runs shown (which is the cached run). In parentheses is the speed-up relative to `threads = 1`, i.e., 3 or 4 cores full with one chain.
 
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
@@ -103,6 +102,8 @@ res |>
   knitr::kable(align = "lrrrr")
 ```
 
+And here are the timings again, in a figure.
+
 ```{r, echo = FALSE, message = FALSE, fig.path = "figures/", fig.width = 7, fig.height = 4, dpi = 200}
 
 library(tidyverse)
@@ -112,8 +113,8 @@ dat <- res |>
   summarise(mean_chain = min(mean_chain), .groups = "drop")
 
 ggplot(dat, aes(threads, mean_chain, colour = machine, shape = machine)) +
-  geom_line(linewidth = 1.5) +
-  geom_point(size = 2.5) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
   geom_text(aes(label = mean_chain,
                 vjust = if_else(grepl("Apple", machine), 1.9, -0.9)),
             size = 3.2, show.legend = FALSE) +
@@ -121,12 +122,13 @@ ggplot(dat, aes(threads, mean_chain, colour = machine, shape = machine)) +
   scale_shape_manual(values = c(17, 19, 15, 18, 8, 4, 3, 7)) +      
   scale_x_continuous(breaks = 1:4) +
   scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.1))) +
-  labs(x = "threads per chain (4 chains)",
-       y = "mean chain time (s)",
+  labs(x = "Threads per chain (4 chains), except 5625U w. 3 chains",
+       y = "Mean chain time (in s.)",
        colour = NULL, shape = NULL) +
-  theme_classic(base_size = 10) +
+  brms::theme_default(base_size = 10) +
   theme(legend.position = "inside",
         legend.position.inside = c(0.82, 0.85),
+        legend.text = element_text(size = 7),
         legend.background = element_blank(),
         legend.key = element_blank())
 ```
@@ -135,7 +137,7 @@ ggplot(dat, aes(threads, mean_chain, colour = machine, shape = machine)) +
 
 - `run_benchmark.R`. the function; `source()` it and call `run_benchmark()`
 - `benchmark.csv`. the data
-- `results.csv`. all rows so far, one per run
+- `results.csv`. all rows so far
 
 ## References
 
