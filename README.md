@@ -8,6 +8,16 @@ computer samples a typical psychology model with **brms / CmdStan**,
 with wall time as a user experiences it, with and without within-chain
 threading, though the times obtained with threading are of interest.
 
+I do not recommend running it under “pure” Windows. For example, in this
+dataset, the 5625U from AMD reported timings of 286s for 4 chains X 1
+thread and the same laptop under WSL2 and under the same settings,
+89.8s. So the biggest available free lunch for a Windows user in terms
+of speeding up is using the WSL. I have observed this a lot and there
+are enough [threads on the
+interwebs](https://discourse.mc-stan.org/t/large-cmdstan-performance-differences-windows-vs-linux/14415/30)
+with concurring evidence. I am not sure if the reason for this issue was
+ever clarified but alas, here we are.
+
 ## How to run it
 
 Copy/paste into the console, but beware of your own specs before setting
@@ -21,9 +31,10 @@ run_benchmark(threads = 1:2, reps = 2)   # keep 4 x threads <= your fast physica
 Needs R, `brms`, `cmdstanr` and a working CmdStan
 (`cmdstanr::install_cmdstan()`). Each run appends one row to
 `results.csv` in your working directory and prints it. The first run of
-each thread setting includes compilation (visible in `overhead`); the
-second is the clean one. Laptops should be plugged in and on Linux, set
-the CPU governor to `performance`.
+each thread setting includes compilation (visible in `overhead`). The
+second is the clean one and will most likely give the lowest timing.
+Laptops should be plugged in if on Win, and on Linux, set the CPU
+governor to *performance*.
 
 ## Report it
 
@@ -38,13 +49,31 @@ are merged into `results.csv` by me as soon as I get the chance.
 The function uses synthetic data, which is a modified version of the
 data in the [within-chain parallelization
 vignette](https://cran.r-project.org/web/packages/brms/vignettes/brms_threading.html)
-(Weber & Bürkner, 2025). It has 10000 observations in 1000 groups.
+(Weber & Bürkner, 2025). It has 10,000 observations clustered in 1,000
+groups.
 
 The model is a simple Poisson multilevel model with two predictors and
 clustering (random intercept, fixed slopes), also from the vignette. It
 uses 4,000 iterations per chain, the first 2,000 being warmup. The
 benchmark assumes at least 4 physical cores and runs 4 chains in
-parallel, one per core.
+parallel, 1/core as a default.
+
+The `brm()` call inside `run_benchmark()`:
+
+``` r
+brm(
+  y ~ 1 + x1 + x2 + (1 | g),
+  data = benchmark, family = poisson(),
+  iter = 4000, warmup = 2000,
+  chains = 4, cores = 4,
+  threads = if (k > 1) threading(k) else NULL,
+  seed = 1234,
+  prior = prior(normal(0, 1), class = b) +
+          prior(constant(1), class = sd, group = g),
+  backend = "cmdstanr",
+  save_pars = save_pars(all = TRUE)
+)
+```
 
 ## Arguments
 
@@ -65,25 +94,6 @@ parallel, one per core.
   If you leave it out the function reads the CPU name from the operating
   system. I think it is desirable like this. Pass a string
   (e.g. `"M4Pro 8P"`) to override it, if you wish so.
-
-The `brm()` call inside `run_benchmark()`:
-
-``` r
-brm(
-  y ~ 1 + x1 + x2 + (1 | g),
-  data = benchmark, family = poisson(),
-  iter = 4000, warmup = 2000,
-  chains = 4, cores = 4,
-  threads = if (k > 1) threading(k) else NULL,
-  seed = 1234,
-  prior = prior(normal(0, 1), class = b) +
-          prior(constant(1), class = sd, group = g),
-  backend = "cmdstanr",
-  save_pars = save_pars(all = TRUE)
-)
-```
-
-This measures end-to-end sampling time for a standard call.
 
 ## What the columns mean in the results.csv
 
