@@ -121,7 +121,7 @@ ggplot(dat, aes(threads, mean_chain, colour = machine, shape = machine)) +
   scale_colour_brewer(palette = "Dark2") +                        # up to 8 machines
   scale_shape_manual(values = c(17, 19, 15, 18, 8, 4, 3, 7)) +      
   scale_x_continuous(breaks = 1:4) +
-  scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.1))) +
+  scale_y_continuous(limits = c(20, NA), expand = expansion(mult = c(0, 0.1))) +
   labs(x = "Threads per chain (4 chains), except 5625U w. 3 chains",
        y = "Mean chain time (in s.)",
        colour = NULL, shape = NULL) +
