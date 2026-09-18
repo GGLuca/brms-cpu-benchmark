@@ -111,11 +111,6 @@ Mean chain time (`mean_chain`) in seconds, with the lowest timed runs
 shown (which is the cached run). In parentheses is the speed-up relative
 to `threads = 1`, i.e., 3 or 4 cores full with one chain.
 
-    #> Warning: One or more parsing issues, call `problems()` on your data frame for details,
-    #> e.g.:
-    #>   dat <- vroom(...)
-    #>   problems(dat)
-
 | machine | 1 thread | 2 threads | 3 threads | 4 threads |
 |:---|---:|---:|---:|---:|
 | AMD Ryzen 5 5625U (WSL2) | 89.8 s | 65.5 s (1.37×) |  |  |
