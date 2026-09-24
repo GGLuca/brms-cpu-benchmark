@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `brms` CPU benchmark
+# `brms` CPU benchmark 
 
 This repo contains a small, reproducible benchmark for how fast a modern
 computer samples a typical psychology model with **brms / CmdStan**,
