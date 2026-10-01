@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `brms` CPU benchmark 
+# `brms` CPU benchmark
 
 This repo contains a small, reproducible benchmark for how fast a modern
 computer samples a typical psychology model with **brms / CmdStan**,
@@ -114,6 +114,7 @@ to `threads = 1`, i.e., 3 or 4 cores full with one chain.
 | machine | 1 thread | 2 threads | 3 threads | 4 threads |
 |:---|---:|---:|---:|---:|
 | AMD Ryzen 5 5625U (WSL2) | 89.8 s | 65.5 s (1.37×) |  |  |
+| AMD Ryzen 5 3600 (Win11 + WSL1) | 87.6 s | 58.9 s (1.49×) |  |  |
 | AMD Ryzen 9 5950X 16-Core | 56.9 s | 36.4 s (1.56×) | 31.9 s (1.78×) | 26.2 s (2.17×) |
 | Apple M4 | 47.5 s |  |  |  |
 | Apple M4 Pro | 45.4 s | 32.9 s (1.38×) |  |  |
