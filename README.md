@@ -4,16 +4,16 @@
 # `brms` CPU benchmark
 
 This repo contains a small, reproducible benchmark for how fast a modern
-computer samples a typical psychology model with **brms / CmdStan**,
-with wall time as a user experiences it, with and without within-chain
-threading, though the times obtained with threading are of interest.
+computer samples a typical model with **brms / CmdStan**, with wall time
+as a user experiences it, with and without within-chain threading,
+though the times obtained with threading are of interest.
 
 I do not recommend running it under “pure” Windows. For example, in this
-dataset, the 5625U from AMD reported timings of 286s for 4 chains X 1
-thread and the same laptop under WSL2 and under the same settings,
+dataset, the 5625U from AMD reported timings of 286s for 4 chains and 1
+thread. The same laptop under WSL2 and with the same settings registered
 89.8s. So the biggest available free lunch for a Windows user in terms
-of speeding up is using the WSL. I have observed this a lot and there
-are enough [threads on the
+of speeding up is using the WSL 1 or 2. I have observed this quite a lot
+and there are enough [threads on the
 interwebs](https://discourse.mc-stan.org/t/large-cmdstan-performance-differences-windows-vs-linux/14415/30)
 with concurring evidence. I am not sure if the reason for this issue was
 ever clarified but alas, here we are.
@@ -21,28 +21,31 @@ ever clarified but alas, here we are.
 ## How to run it
 
 Copy/paste into the console, but beware of your own specs before setting
-the treads argument.
+the treads argument. This is because some CPUs have a non bayesian
+friendly configuration in terms of cores. As running 4 chains is
+considered the norm, a 6 or 12 core CPU will have a harder time
+benefiting from the treading argument using 4 chains.
 
 ``` r
 source("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/refs/heads/master/benchmark.R")
 run_benchmark(threads = 1:2, reps = 2)   # keep 4 x threads <= your fast physical cores
 ```
 
-Needs R, `brms`, `cmdstanr` and a working CmdStan
-(`cmdstanr::install_cmdstan()`). Each run appends one row to
-`results.csv` in your working directory and prints it. The first run of
-each thread setting includes compilation (visible in `overhead`). The
-second is the clean one and will most likely give the lowest timing.
-Laptops should be plugged in if on Win, and on Linux, set the CPU
-governor to *performance*.
+The benchmark needs R, `brms`, `cmdstanr` and a working CmdStan
+(`cmdstanr::install_cmdstan()`). Each run appends or creates (depending
+if you are cloning or not) one row to `results.csv` in your working
+directory and prints it. The first run of each thread setting includes
+compilation (visible in `overhead`). The second run is the clean one and
+will most likely give the lowest timing. Laptops should be plugged in if
+on Win, and on Linux, set the CPU governor to *performance*.
 
 ## Report it
 
 If you wish, paste your rows as a [GitHub
 issue](https://github.com/GGLuca/brms-cpu-benchmark/issues) and also
-please make sure that the laptop was plugged in and if the power mode
-was on (if on Win). If you are on Linux, which governor was active. Rows
-are merged into `results.csv` by me as soon as I get the chance.
+please make a note wether the laptop was plugged in and if the power
+mode was on (if on Win). Rows will be merged into `results.csv` by me as
+soon as I get the chance.
 
 ## The benchmark
 
@@ -85,6 +88,11 @@ brm(
   cores (P-cores on Apple Silicon; real cores, not SMT threads, on x86).
   The function will warn you when you exceed it.
 
+- The `chains` argument sets the number of MCMC chains used to explore
+  the posterior.
+
+- The `cores` argument sets the number of cores used in the benchmark.
+
 - The `reps` argument sets how many times each thread setting is run
   (default at 1). With `reps = 2` you get a replicate row for every
   setting, which shows how much run-to-run variation there is, and the
@@ -93,7 +101,7 @@ brm(
 - The `machine` argument is the label written to the `machine` column.
   If you leave it out the function reads the CPU name from the operating
   system. I think it is desirable like this. Pass a string
-  (e.g. `"M4Pro 8P"`) to override it, if you wish so.
+  (e.g. `"M4Pro 8P"`) to override it if you wish to do so.
 
 ## What the columns mean in the results.csv
 
@@ -107,9 +115,10 @@ brm(
 
 ## Results
 
-Mean chain time (`mean_chain`) in seconds, with the lowest timed runs
-shown (which is the cached run). In parentheses is the speed-up relative
-to `threads = 1`, i.e., 3 or 4 cores full with one chain.
+Here are the mean chain time (`mean_chain`) in seconds, with the lowest
+timed runs shown (which is the cached run) from the database. In
+parentheses is the speed-up relative to `threads = 1`, i.e., 3 or 4
+cores full with one chain.
 
 | machine | 1 thread | 2 threads | 3 threads | 4 threads |
 |:---|---:|---:|---:|---:|
@@ -129,7 +138,7 @@ And here are the timings again, in a figure.
 - `run_benchmark.R`. the function; `source()` it and call
   `run_benchmark()`
 - `benchmark.csv`. the data
-- `results.csv`. all rows so far
+- `results.csv`. all rows so far.
 
 ## References
 

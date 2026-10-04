@@ -19,6 +19,7 @@ library(readr)
 ## detectCores() counts P- and E-cores together on Apple Silicon and SMT
 ## threads on some Linux kernels -- both are the wrong number for
 ## "how many threads can I run without slowing down".
+
 cpu_info <- function() {
   os <- Sys.info()[["sysname"]]
   if (os == "Darwin") {
