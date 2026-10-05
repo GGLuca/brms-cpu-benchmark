@@ -24,7 +24,7 @@ Copy/paste into the console, but beware of your own specs before setting the tre
 
 ```{r, eval = FALSE}
 source("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/refs/heads/master/benchmark.R")
-run_benchmark(threads = 1:2, reps = 2)   # keep 4 x threads <= your fast physical cores
+run_benchmark(threads = 1:2, reps = 2)   # this defaults to 4 cores and 4 chains
 ```
 
 The benchmark needs R, `brms`, `cmdstanr` and a working CmdStan
@@ -111,6 +111,9 @@ And here are the timings again, in a figure.
 ```{r, echo = FALSE, message = FALSE, fig.path = "figures/", fig.width = 7, fig.height = 4, dpi = 200}
 
 library(tidyverse)
+library(MetBrewer)
+
+library(ggrepel)
 
 dat <- res |>
   group_by(machine, threads) |>
@@ -118,19 +121,27 @@ dat <- res |>
 
 ggplot(dat, aes(threads, mean_chain, colour = machine, shape = machine)) +
   geom_line(linewidth = 0.5) +
-  geom_point(size = 1) +
-  geom_text(aes(label = mean_chain,
-                vjust = if_else(grepl("Apple", machine), 1.9, -0.9)),
-            size = 3.2, show.legend = FALSE) +
-  scale_colour_brewer(palette = "Set3") +
-  scale_x_continuous(breaks = 1:4) +
+  geom_point(size = 2) +
+  geom_text_repel(
+    aes(label = round(mean_chain, 1)),   
+    size = 3.2,
+    direction = "y",                    
+    box.padding = 0.2,
+    point.padding = 0.15,
+    min.segment.length = 0.3,            
+    segment.size = 0.2,
+    max.overlaps = Inf,                  
+    seed = 42,                           
+    show.legend = FALSE
+  ) +
+  scale_color_manual(values = met.brewer("Austria")) +
+  scale_x_continuous(breaks = 1:4, expand = expansion(add = 0.3)) +
   scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.1))) +
   labs(x = "Threads per chain (4 chains), except 5625U & 3600 w. 3 chains",
        y = "Mean chain time (in s.)",
        colour = NULL, shape = NULL) +
-  brms::theme_default()+
+  brms::theme_default() +
   theme(legend.position = "bottom",
-        legend.position.inside = c(0.82, 0.85),
         legend.text = element_text(size = 7),
         legend.background = element_blank(),
         legend.key = element_blank())

@@ -28,7 +28,7 @@ benefiting from the treading argument using 4 chains.
 
 ``` r
 source("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/refs/heads/master/benchmark.R")
-run_benchmark(threads = 1:2, reps = 2)   # keep 4 x threads <= your fast physical cores
+run_benchmark(threads = 1:2, reps = 2)   # this defaults to 4 cores and 4 chains
 ```
 
 The benchmark needs R, `brms`, `cmdstanr` and a working CmdStan
