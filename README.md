@@ -9,7 +9,7 @@ as a user experiences it, with and without within-chain threading,
 though the times obtained with threading are of interest.
 
 I do not recommend running it under “pure” Windows. For example, in this
-dataset, the 5625U from AMD reported timings of 286s for 4 chains and 1
+test (not reported), the 5625U from AMD reported timings of 286s for 4 chains and 1
 thread. The same laptop under WSL2 and with the same settings registered
 89.8s. So the biggest available free lunch for a Windows user in terms
 of speeding up is using the WSL 1 or 2. I have observed this quite a lot
