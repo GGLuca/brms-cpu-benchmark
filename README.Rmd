@@ -97,15 +97,17 @@ res |>
   group_by(machine, threads) |>
   summarise(mean_chain = min(mean_chain), .groups = "drop") |>
   group_by(machine) |>
-  mutate(speedup = mean_chain[threads == 1] / mean_chain) |>
+  mutate(base = mean_chain[threads == 1],
+         speedup = base / mean_chain) |>
   ungroup() |>
   mutate(cell = if_else(threads == 1,
                         sprintf("%.1f s", mean_chain),
                         sprintf("%.1f s (%.2f×)", mean_chain, speedup))) |>
-  select(machine, threads, cell) |>
+  select(machine, base, threads, cell) |>
   pivot_wider(names_from = threads, values_from = cell,
               names_glue = "{threads} thread{ifelse(threads > 1, 's', '')}") |>
-  arrange(desc(`1 thread`)) |>
+  arrange(desc(base)) |>
+  select(-base) |>
   knitr::kable(align = "lrrrr")
 ```
 
