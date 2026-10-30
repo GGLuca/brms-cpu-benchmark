@@ -1,10 +1,10 @@
-## run_benchmark.R
+## benchmark.R
 ##
-## brms / CmdStan CPU benchmark. Same model, data and settings as the
-## Dec-2024 Stan forum post; wall-time as a user experiences it.
+## brms / CmdStan CPU benchmark. Model and data adapted from the brms
+## within-chain threading vignette; wall-time as a user experiences it.
 ##
 ## Usage:
-##   source("run_benchmark.R")
+##   source("benchmark.R")
 ##   run_benchmark()                                  # this machine, 4 chains, threads = 1
 ##   run_benchmark(threads = 1:2, reps = 2)           # sweep with replication
 ##   run_benchmark(chains = 3, threads = 2)           # 6-core machine: 3 chains x 2 threads
