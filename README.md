@@ -9,7 +9,7 @@ as a user experiences it, with and without within-chain threading,
 though the times obtained with threading are of interest.
 
 I do not recommend running it under “pure” Windows. For example, in this
-test (not reported), the 5625U from AMD reported timings of 286s for 4 chains and 1
+dataset, the 5625U from AMD reported timings of 286s for 4 chains and 1
 thread. The same laptop under WSL2 and with the same settings registered
 89.8s. So the biggest available free lunch for a Windows user in terms
 of speeding up is using the WSL 1 or 2. I have observed this quite a lot
@@ -31,7 +31,7 @@ source("https://raw.githubusercontent.com/GGLuca/brms-cpu-benchmark/refs/heads/m
 run_benchmark(threads = 1:2, reps = 2)   # this defaults to 4 cores and 4 chains
 ```
 
-The benchmark needs R, `brms`, `cmdstanr` and a working CmdStan
+The benchmark needs R, `brms`, `cmdstanr`, `readr` and a working CmdStan
 (`cmdstanr::install_cmdstan()`). Each run appends or creates (depending
 if you are cloning or not) one row to `results.csv` in your working
 directory and prints it. The first run of each thread setting includes
@@ -68,30 +68,36 @@ brm(
   y ~ 1 + x1 + x2 + (1 | g),
   data = benchmark, family = poisson(),
   iter = 4000, warmup = 2000,
-  chains = 4, cores = 4,
+  chains = chains, cores = chains,
   threads = if (k > 1) threading(k) else NULL,
   seed = 1234,
   prior = prior(normal(0, 1), class = b) +
           prior(constant(1), class = sd, group = g),
   backend = "cmdstanr",
-  save_pars = save_pars(all = TRUE)
+  save_pars = save_pars(all = TRUE),
+  refresh = 0, silent = 2
 )
 ```
 
 ## Arguments
 
 - The `threads` argument sets the number of within-chain threads per
-  chain. At `threads = 1`, each chain runs on a single core (4 cores in
-  total). At `threads = 2`, each chain’s likelihood is split across 2
-  threads, so 4 × 2 = 8 cores are used; `threads = 3` uses 12 cores, and
-  so on. Keep 4 × threads at or below the number of *fast* physical
-  cores (P-cores on Apple Silicon; real cores, not SMT threads, on x86).
-  The function will warn you when you exceed it.
+  chain. At `threads = 1`, each chain runs on a single core. At
+  `threads = 2`, each chain’s likelihood is split across 2 threads, so
+  with 4 chains 4 × 2 = 8 cores are used; `threads = 3` uses 12 cores,
+  and so on. Keep chains × threads at or below the number of *fast*
+  physical cores (P-cores on Apple Silicon; real cores, not SMT threads,
+  on x86). The function will warn you when you exceed it.
 
 - The `chains` argument sets the number of MCMC chains used to explore
   the posterior.
 
-- The `cores` argument sets the number of cores used in the benchmark.
+- There is no `cores` argument: chains run in parallel, one core each
+  (`cores = chains`).
+
+- The `data` argument is the path or URL of the data (defaults to
+  `benchmark.csv` on GitHub), and `out` is the file the rows are
+  appended to (defaults to `results.csv`).
 
 - The `reps` argument sets how many times each thread setting is run
   (default at 1). With `reps = 2` you get a replicate row for every
@@ -135,8 +141,7 @@ And here are the timings again, in a figure.
 
 ## Files
 
-- `run_benchmark.R`. the function; `source()` it and call
-  `run_benchmark()`
+- `benchmark.R`. the function; `source()` it and call `run_benchmark()`
 - `benchmark.csv`. the data
 - `results.csv`. all rows so far.
 
