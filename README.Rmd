@@ -16,7 +16,7 @@ options(knitr.kable.NA = "")
 
 This repo contains a small, reproducible benchmark for how fast a modern computer samples a typical model with **brms / CmdStan**, with wall time as a user experiences it, with and without within-chain threading, though the times obtained with threading are of interest.
 
-I do not recommend running it under "pure" Windows. For example, in this dataset, the 5625U from AMD reported timings of 286s for 4 chains and 1 thread. The same laptop under WSL2 and with the same settings registered 89.8s. So the biggest available free lunch for a Windows user in terms of speeding up is using the WSL 1 or 2. I have observed this quite a lot and there are enough [threads on the interwebs](https://discourse.mc-stan.org/t/large-cmdstan-performance-differences-windows-vs-linux/14415/30) with concurring evidence. I am not sure if the reason for this issue was ever clarified but alas, here we are.
+I do not recommend running it under "pure" Windows. For example, in a test (not reported), the 5625U from AMD reported timings of 286s for 4 chains and 1 thread. The same laptop under WSL2 registered 89.8s with 3 chains and 1 thread. So the biggest available free lunch for a Windows user in terms of speeding up is using the WSL 1 or 2. I have observed this quite a lot and there are enough [threads on the interwebs](https://discourse.mc-stan.org/t/large-cmdstan-performance-differences-windows-vs-linux/14415/30) with concurring evidence. I am not sure if the reason for this issue was ever clarified but alas, here we are.
 
 ## How to run it
 
@@ -82,12 +82,12 @@ brm(
 | `mean_chain` | Mean per-chain seconds from CmdStan's own clock (warmup + sampling) | **yes, the benchmark** |
 | `total_exec` | Slowest chain; wall time of the sampling phase | yes, also|
 | `elapsed` | The whole `brm()` call: code generation + compile (if any) + sampling + read-back | no |
-| `overhead` | Calculated as `elapsed − total_exec`. Approx. 4–5 s when cached, 15–80 s when a compile happened | no |
+| `overhead` | Calculated as `elapsed − total_exec`. Approx. 4–13 s when cached, 9–120 s when a compile happened | no |
 | `fast_cores` | Fast physical cores detected on the machine | not really |
 
 ## Results
 
-Here are the mean chain time (`mean_chain`) in seconds, with the lowest timed runs shown (which is the cached run) from the database. In parentheses is the speed-up relative to `threads = 1`, i.e., 3 or 4 cores full with one chain.
+Here are the mean chain time (`mean_chain`) in seconds, with the lowest timed runs shown (usually the cached run; the 5625U has only one, uncached, run per setting). In parentheses is the speed-up relative to `threads = 1`, i.e., 3 or 4 cores full with one chain.
 
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
