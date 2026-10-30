@@ -32,7 +32,7 @@ cpu_info <- function() {
     sockets <- length(unique(grep("physical id", ci, value = TRUE)))
     fast    <- cores * max(sockets, 1)
   } else {                                          # Windows
-    name <- trimws(system("wmic cpu get name", intern = TRUE)[2])
+    name <- trimws(system('powershell -NoProfile -Command "(Get-CimInstance Win32_Processor).Name"', intern = TRUE)[1])
     fast <- parallel::detectCores(logical = FALSE)
   }
   list(name = name, fast_cores = fast, os = paste(os, Sys.info()[["release"]]))
